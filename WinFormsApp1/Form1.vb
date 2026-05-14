@@ -1,0 +1,131 @@
+﻿Imports QRCoder
+Imports System.Drawing
+Public Class Form1
+    Dim imagenFondoQR As Bitmap = Nothing
+    Dim Explorador As New OpenFileDialog()
+    Public Sub GenerarQR()
+        Try
+            If String.IsNullOrWhiteSpace(LinkLbl.Text) Then Return
+            Dim generadorQR As New QRCodeGenerator
+            Dim qrCodeDato As QRCodeData = generadorQR.CreateQrCode(LinkLbl.Text, QRCodeGenerator.ECCLevel.H)
+            Dim qrCode As New QRCode(qrCodeDato)
+            Dim colorCuadritos As Color = Color.Black
+            Dim colorFondo As Color = If(RadioBtnImage.Checked, Color.Transparent, Color.White)
+
+            If RadioBtnColor.Checked Then
+                colorFondo = PnlMuestraColor.BackColor
+            End If
+
+            Dim qrImage As Bitmap = qrCode.GetGraphic(20, Color.Black, colorFondo, Nothing, 15)
+            If RadioBtnImage.Checked AndAlso imagenFondoQR IsNot Nothing Then
+                Dim resultadoFinal As New Bitmap(qrImage.Width, qrImage.Height)
+                Using g As Graphics = Graphics.FromImage(resultadoFinal)
+                    g.DrawImage(imagenFondoQR, 0, 0, qrImage.Width, qrImage.Height)
+                    g.DrawImage(qrImage, 0, 0)
+                End Using
+            Else
+                PicBoxPrevia.Image = qrImage
+            End If
+            PicBoxPrevia.SizeMode = PictureBoxSizeMode.Zoom
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ComboBox1.SelectedIndex = 0
+    End Sub
+
+    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
+        'limpiamos label link para que muestre la direccion del QR'
+        LinkLbl.Text = ""
+        Select Case ComboBox1.SelectedIndex
+            Case 0
+                TxtBoxDetalles.Text = ("Seleccione una opcion del paso 1")
+
+            Case 1, 4
+                'contacto o texto para abrir el explorador dde archivos
+                TxtBoxDetalles.Text = ("")
+                Explorador.Title = "Seleccione el archivo"
+                If Explorador.ShowDialog = DialogResult.OK Then
+                    Dim Ruta As String = Explorador.FileName
+                    'mostramos la ruta del archivo en el Txtbox del paso 2
+                    TxtBoxDetalles.Text = Ruta
+
+                    'ahora la mostramos en el link label
+                    LinkLbl.Text = Ruta
+
+                End If
+
+            Case 2
+                TxtBoxDetalles.Text = ("ingrese red WiFI")
+                Dim Ventana As New Form2()
+                Ventana.ShowDialog()
+
+            Case 3
+                TxtBoxDetalles.Text = ("Ingrese URL")
+                LinkLbl.Text = TxtBoxDetalles.Text
+
+
+
+        End Select
+    End Sub
+
+    Private Sub RadioBtnColor_CheckedChanged(sender As Object, e As EventArgs) Handles RadioBtnColor.CheckedChanged
+        If RadioBtnColor.Checked Then
+
+            ' 1. Creamos la instancia del selector de colores de Windows
+            Dim selectorColor As New ColorDialog()
+
+            ' 2. Opcional: Permitir que el usuario defina colores personalizados
+            selectorColor.FullOpen = True
+            selectorColor.Color = Color.White ' Color inicial por defecto
+
+            ' 3. Abrimos el formulario de colores y verificamos si el usuario dio a "Aceptar"
+            If selectorColor.ShowDialog() = DialogResult.OK Then
+
+                'mostramos el color elegido en el panel
+                PnlMuestraColor.BackColor = selectorColor.Color
+
+
+                ' 5. ¡Generamos el QR con el nuevo color!
+                GenerarQR()
+            Else
+                ' Si el usuario cancela, podemos desmarcar el RadioButton 
+                ' o volver al color simple para evitar errores
+                RadioBtnSimple.Checked = True
+            End If
+        End If
+    End Sub
+
+    Private Sub RadioBtnImage_CheckedChanged(sender As Object, e As EventArgs) Handles RadioBtnImage.CheckedChanged
+        If RadioBtnImage.Checked Then
+            Using Explorador As New OpenFileDialog()
+                Explorador.Title = "Seleccione una imagen"
+                Explorador.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp"
+                If Explorador.ShowDialog = DialogResult.OK Then
+                    imagenFondoQR = New Bitmap(Explorador.FileName)
+                    GenerarQR()
+
+                Else
+                    RadioBtnSimple.Checked = True
+
+                End If
+            End Using
+
+        End If
+
+    End Sub
+
+    Private Sub BtnAgregarLogo_Click(sender As Object, e As EventArgs) Handles BtnAgregarLogo.Click
+        Using Explorador As New OpenFileDialog()
+            Explorador.Filter = "Imágenes|*.jpg;*.png;*.bmp"
+            If Explorador.ShowDialog() = DialogResult.OK Then
+                ' Guardamos la imagen y marcamos el RadioButton de fondo
+                imagenFondoQR = New Bitmap(Explorador.FileName)
+                RadioBtnImage.Checked = True ' Esto disparará el evento y llamará a GenerarQR()
+                GenerarQR() ' Por seguridad lo llamamos manualmente también
+            End If
+        End Using
+    End Sub
+End Class
