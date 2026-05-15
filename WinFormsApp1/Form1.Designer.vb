@@ -239,7 +239,6 @@ Partial Class Form1
         TxtBoxDetalles.Name = "TxtBoxDetalles"
         TxtBoxDetalles.Size = New Size(179, 20)
         TxtBoxDetalles.TabIndex = 4
-        TxtBoxDetalles.Text = "Ingresar URL, contacto, WiFi, etc..."
         ' 
         ' RadioBtnColor
         ' 
