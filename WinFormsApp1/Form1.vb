@@ -11,21 +11,24 @@ Public Class Form1
             Dim qrCode As New QRCode(qrCodeDato)
             Dim colorCuadritos As Color = Color.Black
             Dim colorFondo As Color = If(RadioBtnImage.Checked, Color.Transparent, Color.White)
-
+            Dim qrImage As Bitmap = qrCode.GetGraphic(20, Color.Black, colorFondo, Nothing, 15)
+            'pinto el panel de btn radio color
             If RadioBtnColor.Checked Then
                 colorFondo = PnlMuestraColor.BackColor
-            End If
+                PicBoxPrevia.Image = qrCode.GetGraphic(20, Color.Black, colorFondo, Nothing, 15)
 
-            Dim qrImage As Bitmap = qrCode.GetGraphic(20, Color.Black, colorFondo, Nothing, 15)
-            If RadioBtnImage.Checked AndAlso imagenFondoQR IsNot Nothing Then
+                'Dim qrImage As Bitmap = qrCode.GetGraphic(20, Color.Black, colorFondo, Nothing, 15)
+            ElseIf RadioBtnImage.Checked Then
+                'AndAlso imagenFondoQR IsNot Nothing 
                 Dim resultadoFinal As New Bitmap(qrImage.Width, qrImage.Height)
                 Using g As Graphics = Graphics.FromImage(resultadoFinal)
                     g.DrawImage(imagenFondoQR, 0, 0, qrImage.Width, qrImage.Height)
                     g.DrawImage(qrImage, 0, 0)
                 End Using
-            Else
                 PicBoxPrevia.Image = qrImage
             End If
+
+
             PicBoxPrevia.SizeMode = PictureBoxSizeMode.Zoom
 
         Catch ex As Exception
