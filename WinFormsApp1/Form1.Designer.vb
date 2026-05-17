@@ -32,6 +32,7 @@ Partial Class Form1
         Button2 = New Button()
         Button3 = New Button()
         SplitContainer1 = New SplitContainer()
+        BtnExaminar = New Button()
         PnlMuestraColor = New Panel()
         RadioBtnSimple = New RadioButton()
         Label7 = New Label()
@@ -46,7 +47,7 @@ Partial Class Form1
         BtnAgregarLogo = New Button()
         Label3 = New Label()
         PicBoxPrevia = New PictureBox()
-        Button6 = New Button()
+        BtnGenerar = New Button()
         RadioButton8 = New RadioButton()
         RadioButton7 = New RadioButton()
         RadioButton6 = New RadioButton()
@@ -172,6 +173,7 @@ Partial Class Form1
         ' 
         ' SplitContainer1.Panel1
         ' 
+        SplitContainer1.Panel1.Controls.Add(BtnExaminar)
         SplitContainer1.Panel1.Controls.Add(PnlMuestraColor)
         SplitContainer1.Panel1.Controls.Add(RadioBtnSimple)
         SplitContainer1.Panel1.Controls.Add(Label7)
@@ -188,6 +190,16 @@ Partial Class Form1
         SplitContainer1.Size = New Size(822, 249)
         SplitContainer1.SplitterDistance = 245
         SplitContainer1.TabIndex = 1
+        ' 
+        ' BtnExaminar
+        ' 
+        BtnExaminar.Font = New Font("Mongolian Baiti", 8F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        BtnExaminar.Location = New Point(168, 87)
+        BtnExaminar.Name = "BtnExaminar"
+        BtnExaminar.Size = New Size(74, 20)
+        BtnExaminar.TabIndex = 6
+        BtnExaminar.Text = "examinar"
+        BtnExaminar.UseVisualStyleBackColor = True
         ' 
         ' PnlMuestraColor
         ' 
@@ -237,9 +249,9 @@ Partial Class Form1
         TxtBoxDetalles.HideSelection = False
         TxtBoxDetalles.Location = New Point(8, 87)
         TxtBoxDetalles.Name = "TxtBoxDetalles"
-        TxtBoxDetalles.Size = New Size(179, 20)
+        TxtBoxDetalles.Size = New Size(150, 20)
         TxtBoxDetalles.TabIndex = 4
-        TxtBoxDetalles.Text = "Ingresar URL, contacto, WiFi, etc..."
+        TxtBoxDetalles.Text = "en el caso de seleccionar ""otro"""
         ' 
         ' RadioBtnColor
         ' 
@@ -299,7 +311,7 @@ Partial Class Form1
         ' 
         ' SplitContainer2.Panel2
         ' 
-        SplitContainer2.Panel2.Controls.Add(Button6)
+        SplitContainer2.Panel2.Controls.Add(BtnGenerar)
         SplitContainer2.Panel2.Controls.Add(RadioButton8)
         SplitContainer2.Panel2.Controls.Add(RadioButton7)
         SplitContainer2.Panel2.Controls.Add(RadioButton6)
@@ -350,14 +362,14 @@ Partial Class Form1
         PicBoxPrevia.TabIndex = 0
         PicBoxPrevia.TabStop = False
         ' 
-        ' Button6
+        ' BtnGenerar
         ' 
-        Button6.Location = New Point(57, 198)
-        Button6.Name = "Button6"
-        Button6.Size = New Size(138, 23)
-        Button6.TabIndex = 6
-        Button6.Text = "Generar QR!"
-        Button6.UseVisualStyleBackColor = True
+        BtnGenerar.Location = New Point(57, 198)
+        BtnGenerar.Name = "BtnGenerar"
+        BtnGenerar.Size = New Size(138, 23)
+        BtnGenerar.TabIndex = 6
+        BtnGenerar.Text = "Generar QR!"
+        BtnGenerar.UseVisualStyleBackColor = True
         ' 
         ' RadioButton8
         ' 
@@ -490,12 +502,13 @@ Partial Class Form1
     Friend WithEvents RadioButton5 As RadioButton
     Friend WithEvents RadioButton4 As RadioButton
     Friend WithEvents Label6 As Label
-    Friend WithEvents Button6 As Button
+    Friend WithEvents BtnGenerar As Button
     Friend WithEvents RadioButton8 As RadioButton
     Friend WithEvents LinkLbl As LinkLabel
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Public WithEvents TxtBoxDetalles As TextBox
     Friend WithEvents PnlMuestraColor As Panel
     Friend WithEvents ColorDialog As ColorDialog
+    Friend WithEvents BtnExaminar As Button
 
 End Class

@@ -3,6 +3,7 @@ Imports System.Drawing
 Public Class Form1
     Dim imagenFondoQR As Bitmap = Nothing
     Dim Explorador As New OpenFileDialog()
+
     Public Sub GenerarQR()
         Try
             If String.IsNullOrWhiteSpace(LinkLbl.Text) Then Return
@@ -11,22 +12,26 @@ Public Class Form1
             Dim qrCode As New QRCode(qrCodeDato)
             Dim colorCuadritos As Color = Color.Black
             Dim colorFondo As Color = If(RadioBtnImage.Checked, Color.Transparent, Color.White)
-
-            If RadioBtnColor.Checked Then
-                colorFondo = PnlMuestraColor.BackColor
-            End If
-
             Dim qrImage As Bitmap = qrCode.GetGraphic(20, Color.Black, colorFondo, Nothing, 15)
-            If RadioBtnImage.Checked AndAlso imagenFondoQR IsNot Nothing Then
-                Dim resultadoFinal As New Bitmap(qrImage.Width, qrImage.Height)
-                Using g As Graphics = Graphics.FromImage(resultadoFinal)
-                    g.DrawImage(imagenFondoQR, 0, 0, qrImage.Width, qrImage.Height)
-                    g.DrawImage(qrImage, 0, 0)
-                End Using
-            Else
-                PicBoxPrevia.Image = qrImage
+            Dim resultadoFinal As New Bitmap(qrImage.Width, qrImage.Height)
+            Dim imagenFondoQr As Bitmap = Nothing
+
+            'pinto el panel de btn radio color
+            If RadioBtnColor.Checked Then
+
+                'pinto el panel con el color elegido
+                colorFondo = PnlMuestraColor.BackColor
+
+                'genero el QR con el color elegido
+                PicBoxPrevia.Image = qrCode.GetGraphic(20, Color.Black, colorFondo, Nothing, 15)
+
+
+
+            ElseIf RadioBtnImage.Checked Then
+
+                PicBoxPrevia.Image = qrCode.GetGraphic(20, Color.Black, Color.Transparent, resultadoFinal, 15)
+
             End If
-            PicBoxPrevia.SizeMode = PictureBoxSizeMode.Zoom
 
         Catch ex As Exception
 
@@ -41,30 +46,64 @@ Public Class Form1
         LinkLbl.Text = ""
         Select Case ComboBox1.SelectedIndex
             Case 0
+                TxtBoxDetalles.Enabled = False
                 TxtBoxDetalles.Text = ("Seleccione una opcion del paso 1")
+                TxtBoxDetalles.ForeColor = Color.Gray
 
-            Case 1, 4
-                'contacto o texto para abrir el explorador dde archivos
-                TxtBoxDetalles.Text = ("")
-                Explorador.Title = "Seleccione el archivo"
-                If Explorador.ShowDialog = DialogResult.OK Then
-                    Dim Ruta As String = Explorador.FileName
-                    'mostramos la ruta del archivo en el Txtbox del paso 2
-                    TxtBoxDetalles.Text = Ruta
 
-                    'ahora la mostramos en el link label
-                    LinkLbl.Text = Ruta
+                '           Case 1, 4
+                '              BtnExaminar.Enabled = False
 
-                End If
+                'contacto o texto para abrir el explorador de archivos
+                '              TxtBoxDetalles.Enabled = False
+                '             Explorador.Title = "Seleccione el archivo"
+                '            If Explorador.ShowDialog = DialogResult.OK Then
+                '           Dim Ruta As String = Explorador.FileName
+                '
+                '     'mostramos la ruta del archivo en el Txtbox del paso 2
+                '     TxtBoxDetalles.Text = Ruta
+
+                'ahora la mostramos en el link label
+                '     LinkLbl.Text = Ruta
+
+           '     End If
 
             Case 2
-                TxtBoxDetalles.Text = ("ingrese red WiFI")
+                BtnExaminar.Enabled = False
+                TxtBoxDetalles.Enabled = False
                 Dim Ventana As New Form2()
                 Ventana.ShowDialog()
 
-            Case 3
-                TxtBoxDetalles.Text = ("Ingrese URL")
-                LinkLbl.Text = TxtBoxDetalles.Text
+
+            Case 3, 1, 4
+                'desactivo el boton de examinar y el textbox para que no se pueda escribir nada
+                BtnExaminar.Enabled = False
+                TxtBoxDetalles.Enabled = False
+
+                'creo variable para guardar el resultado del inputbox y agrego que debe empezar con https://
+                Dim url As String = InputBox("Ingrese la dirección web:", "Ingrese el URL", "https://")
+
+                'valido que no deje el input vacio
+                If String.IsNullOrEmpty(url) Then
+                    MessageBox.Show("Operación cancelada por el usuario.", "Aviso")
+                    Exit Sub
+                End If
+                'valido que el url empiece con https:// y si no es asi le agrego https:// al inicio
+                If Not url.StartsWith("https://") AndAlso Not url.StartsWith("http://") Then
+                    url = "https://" & url
+                End If
+                'muestro la Url en el link label
+                LinkLbl.Text = url
+
+
+            Case 5
+                TxtBoxDetalles.Text = ("Escriba o adjunte lo que desea compartir en el QR")
+                BtnExaminar.Enabled = True
+                TxtBoxDetalles.Enabled = True
+                TxtBoxDetalles.Text = ("Escribir o adjuntar lo que desea compartir en el QR")
+
+
+
 
 
 
@@ -127,5 +166,19 @@ Public Class Form1
                 GenerarQR() ' Por seguridad lo llamamos manualmente también
             End If
         End Using
+    End Sub
+
+    Private Sub BtnExaminar_Click(sender As Object, e As EventArgs) Handles BtnExaminar.Click
+        Using Explorador As New OpenFileDialog()
+            Explorador.Title = "Seleccione un archivo"
+            If Explorador.ShowDialog = DialogResult.OK Then
+                LinkLbl.Text = Explorador.FileName
+
+            End If
+        End Using
+    End Sub
+
+    Private Sub BtnGenerar_Click(sender As Object, e As EventArgs) Handles BtnGenerar.Click
+
     End Sub
 End Class
