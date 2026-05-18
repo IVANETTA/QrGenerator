@@ -51,22 +51,7 @@ Public Class Form1
                 TxtBoxDetalles.ForeColor = Color.Gray
 
 
-                '           Case 1, 4
-                '              BtnExaminar.Enabled = False
 
-                'contacto o texto para abrir el explorador de archivos
-                '              TxtBoxDetalles.Enabled = False
-                '             Explorador.Title = "Seleccione el archivo"
-                '            If Explorador.ShowDialog = DialogResult.OK Then
-                '           Dim Ruta As String = Explorador.FileName
-                '
-                '     'mostramos la ruta del archivo en el Txtbox del paso 2
-                '     TxtBoxDetalles.Text = Ruta
-
-                'ahora la mostramos en el link label
-                '     LinkLbl.Text = Ruta
-
-           '     End If
 
             Case 2
                 BtnExaminar.Enabled = False
@@ -162,7 +147,7 @@ Public Class Form1
             If Explorador.ShowDialog() = DialogResult.OK Then
                 ' Guardamos la imagen y marcamos el RadioButton de fondo
                 imagenFondoQR = New Bitmap(Explorador.FileName)
-                RadioBtnImage.Checked = True ' Esto disparará el evento y llamará a GenerarQR()
+
                 GenerarQR() ' Por seguridad lo llamamos manualmente también
             End If
         End Using
