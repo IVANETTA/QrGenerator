@@ -93,7 +93,7 @@ Partial Class Form2
         ' 
         CmbTextWifi.DropDownStyle = ComboBoxStyle.DropDownList
         CmbTextWifi.FormattingEnabled = True
-        CmbTextWifi.Items.AddRange(New Object() {"Seleccione tipo de seguridad:", "WPA", "WEP", "Ninguna"})
+        CmbTextWifi.Items.AddRange(New Object() {"Seleccione tipo de seguridad:", "WPA", "WEP", "Ninguna", "otro..."})
         CmbTextWifi.Location = New Point(88, 86)
         CmbTextWifi.Name = "CmbTextWifi"
         CmbTextWifi.Size = New Size(121, 23)

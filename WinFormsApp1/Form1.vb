@@ -224,7 +224,9 @@ Public Class Form1
         End If
 
         If RadioBtnCopiar.Checked Then
+            'copio imagen
             Clipboard.SetImage(PicBoxPrevia.Image)
+            'muestro caertelito 
             MessageBox.Show("QR copiado al portapapeles.", "Copiado", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
 
