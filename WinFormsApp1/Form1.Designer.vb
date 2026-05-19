@@ -48,11 +48,11 @@ Partial Class Form1
         Label3 = New Label()
         PicBoxPrevia = New PictureBox()
         BtnGenerar = New Button()
-        RadioButton8 = New RadioButton()
-        RadioButton7 = New RadioButton()
-        RadioButton6 = New RadioButton()
-        RadioButton5 = New RadioButton()
-        RadioButton4 = New RadioButton()
+        RadioBtnCopiar = New RadioButton()
+        RadioBtnImprimir = New RadioButton()
+        RadioBtnSvg = New RadioButton()
+        RadioBtnJpg = New RadioButton()
+        RadioBtnPng = New RadioButton()
         Label6 = New Label()
         OpenFileDialog1 = New OpenFileDialog()
         ColorDialog = New ColorDialog()
@@ -312,11 +312,11 @@ Partial Class Form1
         ' SplitContainer2.Panel2
         ' 
         SplitContainer2.Panel2.Controls.Add(BtnGenerar)
-        SplitContainer2.Panel2.Controls.Add(RadioButton8)
-        SplitContainer2.Panel2.Controls.Add(RadioButton7)
-        SplitContainer2.Panel2.Controls.Add(RadioButton6)
-        SplitContainer2.Panel2.Controls.Add(RadioButton5)
-        SplitContainer2.Panel2.Controls.Add(RadioButton4)
+        SplitContainer2.Panel2.Controls.Add(RadioBtnCopiar)
+        SplitContainer2.Panel2.Controls.Add(RadioBtnImprimir)
+        SplitContainer2.Panel2.Controls.Add(RadioBtnSvg)
+        SplitContainer2.Panel2.Controls.Add(RadioBtnJpg)
+        SplitContainer2.Panel2.Controls.Add(RadioBtnPng)
         SplitContainer2.Panel2.Controls.Add(Label6)
         SplitContainer2.Size = New Size(573, 249)
         SplitContainer2.SplitterDistance = 306
@@ -371,65 +371,65 @@ Partial Class Form1
         BtnGenerar.Text = "Generar QR!"
         BtnGenerar.UseVisualStyleBackColor = True
         ' 
-        ' RadioButton8
+        ' RadioBtnCopiar
         ' 
-        RadioButton8.AutoSize = True
-        RadioButton8.Font = New Font("Cambria", 9.75F, FontStyle.Bold)
-        RadioButton8.Location = New Point(7, 142)
-        RadioButton8.Name = "RadioButton8"
-        RadioButton8.Size = New Size(85, 19)
-        RadioButton8.TabIndex = 5
-        RadioButton8.TabStop = True
-        RadioButton8.Text = "Copiar QR"
-        RadioButton8.UseVisualStyleBackColor = True
+        RadioBtnCopiar.AutoSize = True
+        RadioBtnCopiar.Font = New Font("Cambria", 9.75F, FontStyle.Bold)
+        RadioBtnCopiar.Location = New Point(7, 142)
+        RadioBtnCopiar.Name = "RadioBtnCopiar"
+        RadioBtnCopiar.Size = New Size(85, 19)
+        RadioBtnCopiar.TabIndex = 5
+        RadioBtnCopiar.TabStop = True
+        RadioBtnCopiar.Text = "Copiar QR"
+        RadioBtnCopiar.UseVisualStyleBackColor = True
         ' 
-        ' RadioButton7
+        ' RadioBtnImprimir
         ' 
-        RadioButton7.AutoSize = True
-        RadioButton7.Font = New Font("Cambria", 9.75F, FontStyle.Bold)
-        RadioButton7.Location = New Point(7, 117)
-        RadioButton7.Name = "RadioButton7"
-        RadioButton7.Size = New Size(103, 19)
-        RadioButton7.TabIndex = 4
-        RadioButton7.TabStop = True
-        RadioButton7.Text = "Imprimir QR"
-        RadioButton7.UseVisualStyleBackColor = True
+        RadioBtnImprimir.AutoSize = True
+        RadioBtnImprimir.Font = New Font("Cambria", 9.75F, FontStyle.Bold)
+        RadioBtnImprimir.Location = New Point(7, 117)
+        RadioBtnImprimir.Name = "RadioBtnImprimir"
+        RadioBtnImprimir.Size = New Size(103, 19)
+        RadioBtnImprimir.TabIndex = 4
+        RadioBtnImprimir.TabStop = True
+        RadioBtnImprimir.Text = "Imprimir QR"
+        RadioBtnImprimir.UseVisualStyleBackColor = True
         ' 
-        ' RadioButton6
+        ' RadioBtnSvg
         ' 
-        RadioButton6.AutoSize = True
-        RadioButton6.Font = New Font("Cambria", 9.75F, FontStyle.Bold)
-        RadioButton6.Location = New Point(7, 92)
-        RadioButton6.Name = "RadioButton6"
-        RadioButton6.Size = New Size(99, 19)
-        RadioButton6.TabIndex = 3
-        RadioButton6.TabStop = True
-        RadioButton6.Text = "SVG (Vector)"
-        RadioButton6.UseVisualStyleBackColor = True
+        RadioBtnSvg.AutoSize = True
+        RadioBtnSvg.Font = New Font("Cambria", 9.75F, FontStyle.Bold)
+        RadioBtnSvg.Location = New Point(7, 92)
+        RadioBtnSvg.Name = "RadioBtnSvg"
+        RadioBtnSvg.Size = New Size(99, 19)
+        RadioBtnSvg.TabIndex = 3
+        RadioBtnSvg.TabStop = True
+        RadioBtnSvg.Text = "SVG (Vector)"
+        RadioBtnSvg.UseVisualStyleBackColor = True
         ' 
-        ' RadioButton5
+        ' RadioBtnJpg
         ' 
-        RadioButton5.AutoSize = True
-        RadioButton5.Font = New Font("Cambria", 9.75F, FontStyle.Bold)
-        RadioButton5.Location = New Point(7, 67)
-        RadioButton5.Name = "RadioButton5"
-        RadioButton5.Size = New Size(104, 19)
-        RadioButton5.TabIndex = 2
-        RadioButton5.TabStop = True
-        RadioButton5.Text = "JPG (Imagen)"
-        RadioButton5.UseVisualStyleBackColor = True
+        RadioBtnJpg.AutoSize = True
+        RadioBtnJpg.Font = New Font("Cambria", 9.75F, FontStyle.Bold)
+        RadioBtnJpg.Location = New Point(7, 67)
+        RadioBtnJpg.Name = "RadioBtnJpg"
+        RadioBtnJpg.Size = New Size(104, 19)
+        RadioBtnJpg.TabIndex = 2
+        RadioBtnJpg.TabStop = True
+        RadioBtnJpg.Text = "JPG (Imagen)"
+        RadioBtnJpg.UseVisualStyleBackColor = True
         ' 
-        ' RadioButton4
+        ' RadioBtnPng
         ' 
-        RadioButton4.AutoSize = True
-        RadioButton4.Font = New Font("Cambria", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(186))
-        RadioButton4.Location = New Point(7, 42)
-        RadioButton4.Name = "RadioButton4"
-        RadioButton4.Size = New Size(109, 19)
-        RadioButton4.TabIndex = 1
-        RadioButton4.TabStop = True
-        RadioButton4.Text = "PNG (Imagen)"
-        RadioButton4.UseVisualStyleBackColor = True
+        RadioBtnPng.AutoSize = True
+        RadioBtnPng.Font = New Font("Cambria", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(186))
+        RadioBtnPng.Location = New Point(7, 42)
+        RadioBtnPng.Name = "RadioBtnPng"
+        RadioBtnPng.Size = New Size(109, 19)
+        RadioBtnPng.TabIndex = 1
+        RadioBtnPng.TabStop = True
+        RadioBtnPng.Text = "PNG (Imagen)"
+        RadioBtnPng.UseVisualStyleBackColor = True
         ' 
         ' Label6
         ' 
@@ -497,13 +497,13 @@ Partial Class Form1
     Friend WithEvents RadioBtnColor As RadioButton
     Friend WithEvents RadioBtnSimple As RadioButton
     Friend WithEvents Label7 As Label
-    Friend WithEvents RadioButton7 As RadioButton
-    Friend WithEvents RadioButton6 As RadioButton
-    Friend WithEvents RadioButton5 As RadioButton
-    Friend WithEvents RadioButton4 As RadioButton
+    Friend WithEvents RadioBtnImprimir As RadioButton
+    Friend WithEvents RadioBtnSvg As RadioButton
+    Friend WithEvents RadioBtnJpg As RadioButton
+    Friend WithEvents RadioBtnPng As RadioButton
     Friend WithEvents Label6 As Label
     Friend WithEvents BtnGenerar As Button
-    Friend WithEvents RadioButton8 As RadioButton
+    Friend WithEvents RadioBtnCopiar As RadioButton
     Friend WithEvents LinkLbl As LinkLabel
     Friend WithEvents OpenFileDialog1 As OpenFileDialog
     Public WithEvents TxtBoxDetalles As TextBox

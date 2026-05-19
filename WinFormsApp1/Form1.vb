@@ -3,12 +3,14 @@ Imports System.Drawing
 Public Class Form1
     Dim imagenFondoQR As Bitmap = Nothing
     Dim Explorador As New OpenFileDialog()
+    Dim qrCodeDato As QRCodeData = Nothing
 
     Public Sub GenerarQR()
         Try
             If String.IsNullOrWhiteSpace(LinkLbl.Text) Then Return
             Dim generadorQR As New QRCodeGenerator
-            Dim qrCodeDato As QRCodeData = generadorQR.CreateQrCode(LinkLbl.Text, QRCodeGenerator.ECCLevel.H)
+            'Dim qrCodeDato As QRCodeData = generadorQR.CreateQrCode(LinkLbl.Text, QRCodeGenerator.ECCLevel.H)
+            qrCodeDato = generadorQR.CreateQrCode(LinkLbl.Text, QRCodeGenerator.ECCLevel.H) 'linea nueva
             Dim qrCode As New QRCode(qrCodeDato)
             Dim colorCuadritos As Color = Color.Black
             Dim colorFondo As Color = If(RadioBtnImage.Checked, Color.Transparent, Color.White)
@@ -98,25 +100,24 @@ Public Class Form1
     Private Sub RadioBtnColor_CheckedChanged(sender As Object, e As EventArgs) Handles RadioBtnColor.CheckedChanged
         If RadioBtnColor.Checked Then
 
-            ' 1. Creamos la instancia del selector de colores de Windows
+            ' creo variable para el selector de colores
             Dim selectorColor As New ColorDialog()
 
-            ' 2. Opcional: Permitir que el usuario defina colores personalizados
+            ' abro selector colores
             selectorColor.FullOpen = True
-            selectorColor.Color = Color.White ' Color inicial por defecto
+            selectorColor.Color = Color.White
 
-            ' 3. Abrimos el formulario de colores y verificamos si el usuario dio a "Aceptar"
+            ' comprobamos si el usuario selecciono un color
             If selectorColor.ShowDialog() = DialogResult.OK Then
 
                 'mostramos el color elegido en el panel
                 PnlMuestraColor.BackColor = selectorColor.Color
 
 
-                ' 5. ¡Generamos el QR con el nuevo color!
+                'genero qr con el color establecido
                 GenerarQR()
             Else
-                ' Si el usuario cancela, podemos desmarcar el RadioButton 
-                ' o volver al color simple para evitar errores
+                '
                 RadioBtnSimple.Checked = True
             End If
         End If
@@ -129,10 +130,15 @@ Public Class Form1
                 Explorador.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.bmp"
                 If Explorador.ShowDialog = DialogResult.OK Then
                     imagenFondoQR = New Bitmap(Explorador.FileName)
+
                     GenerarQR()
+
+
 
                 Else
                     RadioBtnSimple.Checked = True
+                    'Dim qrSimple As Bitmap = QRCode.GetGraphic(20, Color.Black, Color.White, Nothing, 15)
+                    'PicBoxPrevia.Image = qrSimple
 
                 End If
             End Using
@@ -143,12 +149,14 @@ Public Class Form1
 
     Private Sub BtnAgregarLogo_Click(sender As Object, e As EventArgs) Handles BtnAgregarLogo.Click
         Using Explorador As New OpenFileDialog()
+            'filtro para mostrar solo archivos de imagen
             Explorador.Filter = "Imágenes|*.jpg;*.png;*.bmp"
             If Explorador.ShowDialog() = DialogResult.OK Then
+
                 ' Guardamos la imagen y marcamos el RadioButton de fondo
                 imagenFondoQR = New Bitmap(Explorador.FileName)
 
-                GenerarQR() ' Por seguridad lo llamamos manualmente también
+                GenerarQR()
             End If
         End Using
     End Sub
@@ -164,6 +172,55 @@ Public Class Form1
     End Sub
 
     Private Sub BtnGenerar_Click(sender As Object, e As EventArgs) Handles BtnGenerar.Click
+        If RadioBtnJpg.Checked Then
+            Using Guardar As New SaveFileDialog()
+                Guardar.Filter = "Archivo JPG|*.jpg"
+                If Guardar.ShowDialog() = DialogResult.OK Then
+                    PicBoxPrevia.Image.Save(Guardar.FileName, System.Drawing.Imaging.ImageFormat.Jpeg)
+                End If
+            End Using
+        End If
+        If RadioBtnPng.Checked Then
+            Using Guardar As New SaveFileDialog()
+                Guardar.Filter = "Archivo PNG|*.png"
+                If Guardar.ShowDialog() = DialogResult.OK Then
+                    PicBoxPrevia.Image.Save(Guardar.FileName, System.Drawing.Imaging.ImageFormat.Png)
+                End If
+            End Using
+        End If
+
+        If RadioBtnSvg.Checked Then
+            'mostramos que no se puede guarar el qr personalizado en svg
+            'en caso de que acepte se le genera un qr simple y si no acepta se cancela la operacion
+
+            If MessageBox.Show("El formato SVG no admite colores ni imágenes de fondo, se guardará un QR simple. ¿Desea continuar?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) = DialogResult.No Then Return
+            Using Guardar As New SaveFileDialog()
+                Guardar.Filter = "Archivo SVG|*.svg"
+                If Guardar.ShowDialog() = DialogResult.OK Then
+
+                    Dim motorGenerador As New QRCoder.QRCodeGenerator()
+                    qrCodeDato = motorGenerador.CreateQrCode(LinkLbl.Text, QRCodeGenerator.ECCLevel.H)
+                    Dim qrCodeSvg As New QRCoder.SvgQRCode(qrCodeDato)
+                    Dim svg As String = qrCodeSvg.GetGraphic(20)
+                    System.IO.File.WriteAllText(Guardar.FileName, svg)
+                End If
+            End Using
+
+        End If
+
+        If RadioBtnImprimir.Checked Then
+            Dim printDoc As New Printing.PrintDocument()
+
+            AddHandler printDoc.PrintPage, Sub(sender2, e2)
+                                               e2.Graphics.DrawImage(PicBoxPrevia.Image, New Point(0, 0))
+                                           End Sub
+            Using printDialog As New System.Windows.Forms.PrintDialog()
+                printDialog.Document = printDoc
+                If printDialog.ShowDialog() = DialogResult.OK Then
+                    printDoc.Print()
+                End If
+            End Using
+        End If
 
     End Sub
 End Class
