@@ -220,6 +220,12 @@ Public Class Form1
                     printDoc.Print()
                 End If
             End Using
+
+        End If
+
+        If RadioBtnCopiar.Checked Then
+            Clipboard.SetImage(PicBoxPrevia.Image)
+            MessageBox.Show("QR copiado al portapapeles.", "Copiado", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End If
 
     End Sub
